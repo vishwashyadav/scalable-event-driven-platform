@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run with autoreload (CompileDaemon + Delve)",
+      "type": "shell",
+      "command": "CompileDaemon -build=\"go build -o ./tmp/debug_bin ./api-service/cmd/server\" -command=\"dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec ./tmp/debug_bin\"",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}
