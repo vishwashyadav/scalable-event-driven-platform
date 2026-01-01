@@ -4,6 +4,7 @@ import (
 	"api-service/internal/domain"
 	"fmt"
 	"sync"
+	"time"
 )
 
 type OrderRepository struct {
@@ -22,8 +23,10 @@ func (p *OrderRepository) Save(order *domain.Order) error {
 	if v, ok := p.orders[order.OrderId]; ok {
 		return fmt.Errorf("order with id %s already exists", v.OrderId)
 	}
-
+	order.CreateAt = time.Now()
+	order.Status = domain.OrderCreated
 	p.orders[order.OrderId] = order
+
 	return nil
 }
 
@@ -40,4 +43,19 @@ func (o *OrderRepository) Delete(order string) error {
 		return nil
 	}
 	return fmt.Errorf("order with id %s not found", order)
+}
+
+func (o *OrderRepository) GetAll() ([]*domain.Order, error) {
+	var orders []*domain.Order
+	for _, order := range o.orders {
+		orders = append(orders, order)
+	}
+	return orders, nil
+}
+
+func (o *OrderRepository) UpdateStatus(orderId string, status domain.OrderStatus) error {
+	if order, ok := o.orders[orderId]; ok {
+		order.Status = status
+	}
+	return fmt.Errorf("order with id %s not found", orderId)
 }

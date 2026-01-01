@@ -9,11 +9,11 @@ type Order struct {
 	Status   OrderStatus
 }
 
-type OrderStatus int
+type OrderStatus string
 
 const (
-	OrderCreated OrderStatus = iota
-	OrderProcessing
-	OrderCompleted
-	OrderCancelled
+	OrderCreated    OrderStatus = "OrderCreated"
+	OrderProcessing OrderStatus = "OrderProcessing"
+	OrderCompleted  OrderStatus = "OrderCompleted"
+	OrderCancelled  OrderStatus = "OrderCancelled"
 )

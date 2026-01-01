@@ -2,6 +2,7 @@ package router
 
 import (
 	"api-service/internal/http/handlers"
+	"api-service/internal/processors"
 	"api-service/internal/repository"
 	"api-service/internal/service"
 	"net/http"
@@ -14,7 +15,8 @@ func NewRouter() *http.ServeMux {
 
 	orderRep := repository.OrderRepository{}
 	orderService := service.NewOrderService(&orderRep)
-	handler := handlers.NewOrderHandler(orderService)
+	processor := processors.NewOrderProcessor(orderService)
+	handler := handlers.NewOrderHandler(orderService, processor)
 	// Register both the exact path and the prefix with a trailing slash.
 	// The ServeMux treats patterns not ending with "/" as exact matches,
 	// so to match subpaths like "/orders/CreateOrder" we must register
